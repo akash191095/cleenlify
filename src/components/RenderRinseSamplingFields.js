@@ -1,5 +1,6 @@
 import React from 'react';
-import { Form, Input, Radio } from 'antd';
+import { Form, Input, Radio, InputNumber } from 'antd';
+import AddMOC from './AddMOC';
 
 class RenderRinseSamplingFields extends React.Component {
   renderFields = () => {
@@ -17,11 +18,16 @@ class RenderRinseSamplingFields extends React.Component {
             </Form.Item>
             <Form.Item label="Default Recovery (%)">
               {getFieldDecorator('defaultRecoveryRinse', {
-                rules: [{ required: true, message: 'Please input method used' }],
+                rules: [{ required: true, message: 'Please input recovery percentage' }],
               })(
-                <Input />
+                <InputNumber min={0} max={100} />
               )}
             </Form.Item>
+            <AddMOC
+              targetResidueType={this.props.targetResidueType} 
+              form={this.props.form} 
+              parameterName='rinse'
+            />
           </React.Fragment>
         );
       };
@@ -30,11 +36,11 @@ class RenderRinseSamplingFields extends React.Component {
         const { getFieldDecorator } = this.props.form;
         return (
           <React.Fragment>
-            <Form.Item label="Solvent Volume">
+            <Form.Item label="Solvent Volume (ml)">
               {getFieldDecorator('solventVolume', {
                 rules: [{ required: true, message: 'Please input solvent volume' }],
               })(
-                <Input />
+                <InputNumber min={0} />
               )}
             </Form.Item>
             <Form.Item label="Use Recovery for Swab?"
@@ -53,9 +59,14 @@ class RenderRinseSamplingFields extends React.Component {
               {getFieldDecorator('swabRecoveryPercentageRinse', {
                 rules: [{ required: true, message: 'Please input recovery percentage' }],
               })(
-                <Input />
+                <InputNumber min={0} max={100} />
               )}
             </Form.Item>
+            <AddMOC 
+              targetResidueType={this.props.targetResidueType} 
+              form={this.props.form}
+              parameterName='rinse'
+            />
           </React.Fragment>
         );
       }

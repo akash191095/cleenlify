@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Radio } from 'antd';
+import { Form, Input, Radio, InputNumber } from 'antd';
 import RenderSamplingParameters from './RenderSamplingParameters';
 
 class RenderTargetResidueTypeFields extends React.Component {
@@ -19,6 +19,12 @@ class RenderTargetResidueTypeFields extends React.Component {
   }
 
   renderFields = () => {
+    // if form needs to reset
+    if(this.props.resetForm) {
+      this.setState({
+        defineLimits: false
+      });
+    }
     if (this.props.targetResidueType === 'API' || this.props.targetResidueType === 'Cleaning Agent') {
       const { getFieldDecorator } = this.props.form;
 
@@ -29,7 +35,7 @@ class RenderTargetResidueTypeFields extends React.Component {
             {getFieldDecorator('LOD', {
               rules: [{ required: true, message: 'Please input LOD' }],
             })(
-              <Input />
+              <InputNumber min={0} />
             )}
           </Form.Item>
           <Form.Item label="LOQ (in ppm)"
@@ -37,10 +43,16 @@ class RenderTargetResidueTypeFields extends React.Component {
             {getFieldDecorator('LOQ', {
               rules: [{ required: true, message: 'Please input LOQ' }],
             })(
-              <Input />
+              <InputNumber min={0} />
             )}
           </Form.Item>
-          <RenderSamplingParameters targetResidueType={this.props.targetResidueType} form={this.props.form} />
+          <RenderSamplingParameters 
+            targetResidueType={this.props.targetResidueType} 
+            form={this.props.form} 
+            isSwabConfigured={this.props.isSwabConfigured}
+            isRinseConfigured={this.props.isRinseConfigured}
+            resetForm={this.props.resetForm}
+          />
         </React.Fragment>
       );
     } else if (this.props.targetResidueType === 'Bioburden' || this.props.targetResidueType === 'Endotoxin') {
@@ -71,7 +83,7 @@ class RenderTargetResidueTypeFields extends React.Component {
                 {getFieldDecorator('tntcLimit', {
                   rules: [{ required: true, message: 'Please input TNTC limit' }],
                 })(
-                  <Input />
+                  <InputNumber min={0} />
                 )}
               </Form.Item>
               <Form.Item label="TFTC Limit (in CFU)"
@@ -79,11 +91,17 @@ class RenderTargetResidueTypeFields extends React.Component {
                 {getFieldDecorator('tftcLimit', {
                   rules: [{ required: true, message: 'Please input TFTC limit' }],
                 })(
-                  <Input />
+                  <InputNumber min={0} />
                 )}
               </Form.Item>
             </React.Fragment> : ''}
-          <RenderSamplingParameters targetResidueType={this.props.targetResidueType} form={this.props.form} />
+          <RenderSamplingParameters 
+            targetResidueType={this.props.targetResidueType} 
+            form={this.props.form} 
+            isSwabConfigured={this.props.isSwabConfigured}
+            isRinseConfigured={this.props.isRinseConfigured}
+            resetForm={this.props.resetForm}
+          />
         </React.Fragment>
       );
     }

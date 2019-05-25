@@ -4,3 +4,9 @@
   align-items: center;
   padding: 5em 0;
 }
+
+.input-inLine .ant-form-item-children {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}

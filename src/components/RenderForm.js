@@ -1,31 +1,66 @@
 import React from 'react';
-import { Form, Input, Select, Button } from 'antd';
+import { Form, Input, Select, Button, message } from 'antd';
 import '../styles/render-form.css';
 import RenderTargetResidueTypeFields from './RenderTargetResidueTypeFields';
 
 const { Option } = Select;
 
-// function hasErrors(fieldsError) {
-//   return Object.keys(fieldsError).some(field => fieldsError[field]);
-// }
-
+const onNoParametersConfiguredError = () => {
+  message.error('Please configure at least 1 sampling parameters');
+};
 
 class RenderForm extends React.Component {
-  state = { targetResidueType: '' };
+  state = {
+    targetResidueType: '',
+    isSwabParameterConfigured: false,
+    isRinseParameterConfigured: false,
+    resetForm: false
+  };
 
   componentDidMount() {
     // Use to disabled submit button at the beginning.
     // this.props.form.validateFields();
   }
 
+  isSwabConfigured = () => {
+    if (this.state.isSwabParameterConfigured) {
+      this.setState({ isSwabParameterConfigured: false });
+    } else {
+      this.setState({ isSwabParameterConfigured: true });
+    }
+  };
+
+  isRinseConfigured = () => {
+    if (this.state.isRinseParameterConfigured) {
+      this.setState({ isRinseParameterConfigured: false });
+    } else {
+      this.setState({ isRinseParameterConfigured: true });
+    }
+  };
+
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-        localStorage.setItem(values.analyticalMethodID, JSON.stringify(values));
-      }
-    });
+    // check if either of sampling parameters are configured
+    if (this.state.isRinseParameterConfigured || this.state.isSwabParameterConfigured) {
+      this.props.form.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values);
+          localStorage.setItem(values.analyticalMethodID, JSON.stringify(values));
+          // reset fields
+          this.setState({ resetForm: true });
+          this.props.form.resetFields();
+          this.setState({
+            targetResidueType: '',
+            isSwabParameterConfigured: false,
+            isRinseParameterConfigured: false,
+            resetForm: false
+          });
+        }
+      });
+    } else {
+      // if not show error
+      onNoParametersConfiguredError()
+    }
   };
 
   onResidueTypeSelect = (value) => {
@@ -59,7 +94,13 @@ class RenderForm extends React.Component {
             )}
           </Form.Item>
 
-          <RenderTargetResidueTypeFields targetResidueType={this.state.targetResidueType} form={this.props.form} />
+          <RenderTargetResidueTypeFields
+            targetResidueType={this.state.targetResidueType}
+            form={this.props.form}
+            isSwabConfigured={this.isSwabConfigured}
+            isRinseConfigured={this.isRinseConfigured}
+            resetForm={this.resetForm}
+          />
 
           <Form.Item label="Reason">
             {getFieldDecorator('reason', {

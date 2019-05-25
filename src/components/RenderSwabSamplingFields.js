@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Radio } from 'antd';
+import { Form, Input, Radio, InputNumber } from 'antd';
 import AddMOC from './AddMOC';
 
 class RenderSwabSamplingFields extends React.Component {
@@ -29,17 +29,21 @@ class RenderSwabSamplingFields extends React.Component {
               {getFieldDecorator('solventQuantity', {
                 rules: [{ required: true, message: 'Please input solvent quantity' }],
               })(
-                <Input />
+                <InputNumber min={0} />
               )}
             </Form.Item>
             <Form.Item label="Default Recovery (%)">
               {getFieldDecorator('defaultRecoverySwab', {
                 rules: [{ required: true, message: 'Please input recovery percentage' }],
               })(
-                <Input />
+                <InputNumber min={0} max={100} />
               )}
             </Form.Item>
-            <AddMOC targetResidueType={this.props.targetResidueType} form={this.props.form} />
+            <AddMOC 
+              targetResidueType={this.props.targetResidueType} 
+              form={this.props.form}
+              parameterName='swab'
+            />
           </React.Fragment>
         );
       };
@@ -64,9 +68,14 @@ class RenderSwabSamplingFields extends React.Component {
               {getFieldDecorator('swabRecoveryPercentage', {
                 rules: [{ required: true, message: 'Please input recovery percentage' }],
               })(
-                <Input />
+                <InputNumber min={0} max={100} />
               )}
             </Form.Item>
+            <AddMOC 
+              targetResidueType={this.props.targetResidueType} 
+              form={this.props.form} 
+              parameterName='swab'
+            />
           </React.Fragment>
         );
       }

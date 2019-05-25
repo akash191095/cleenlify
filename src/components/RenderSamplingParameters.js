@@ -15,6 +15,8 @@ class RenderSamplingParameters extends React.Component {
     } else {
       this.setState({ swapSamplingSelected: true });
     }
+    this.props.isSwabConfigured();
+
   };
 
   onRinseSamplingClick = () => {
@@ -23,13 +25,17 @@ class RenderSamplingParameters extends React.Component {
     } else {
       this.setState({ rinseSamplingSelected: true });
     }
+    this.props.isRinseConfigured();
   };
 
   renderSwabFields = () => {
     if (this.state.swapSamplingSelected) {
       return (
         <Card style={{ marginBottom: '1em' }}>
-          <RenderSwabSamplingFields  targetResidueType={this.props.targetResidueType} form={this.props.form} />
+          <RenderSwabSamplingFields
+            targetResidueType={this.props.targetResidueType}
+            form={this.props.form}
+          />
         </Card>
       );
     }
@@ -39,13 +45,22 @@ class RenderSamplingParameters extends React.Component {
     if (this.state.rinseSamplingSelected) {
       return (
         <Card style={{ marginBottom: '1em' }}>
-          <RenderRinseSamplingFields  targetResidueType={this.props.targetResidueType} form={this.props.form} />
+          <RenderRinseSamplingFields
+            targetResidueType={this.props.targetResidueType}
+            form={this.props.form}
+          />
         </Card>
       );
     }
   };
 
   render() {
+    if (this.props.resetForm) {
+      this.setState({
+        swapSamplingSelected: false,
+        rinseSamplingSelected: false
+      });
+    }
     return (
       <div>
         <Button type={this.state.swapSamplingSelected ? "danger" : "primary"} ghost
