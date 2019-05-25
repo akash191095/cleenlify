@@ -39,7 +39,7 @@ class RenderSwabSamplingFields extends React.Component {
                 <InputNumber min={0} max={100} />
               )}
             </Form.Item>
-            <AddMOC 
+            <AddMOC
               targetResidueType={this.props.targetResidueType} 
               form={this.props.form}
               parameterName='swab'
@@ -71,7 +71,7 @@ class RenderSwabSamplingFields extends React.Component {
                 <InputNumber min={0} max={100} />
               )}
             </Form.Item>
-            <AddMOC 
+            <AddMOC
               targetResidueType={this.props.targetResidueType} 
               form={this.props.form} 
               parameterName='swab'

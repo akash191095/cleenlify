@@ -73,7 +73,7 @@ class RenderForm extends React.Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <div className='form-wrapper'>
-        <Form layout="horizontal" onSubmit={this.handleSubmit} style={{ width: '40%' }}>
+        <Form layout="horizontal" onSubmit={this.handleSubmit} className='form-container'>
           <Form.Item label="Analytical Method ID">
             {getFieldDecorator('analyticalMethodID', {
               rules: [{ required: true, message: 'Please input analytical method ID' }],

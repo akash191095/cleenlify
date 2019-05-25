@@ -48,6 +48,7 @@ class RenderSamplingParameters extends React.Component {
           <RenderRinseSamplingFields
             targetResidueType={this.props.targetResidueType}
             form={this.props.form}
+            selected={this.state.rinseSamplingSelected}
           />
         </Card>
       );

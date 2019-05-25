@@ -62,7 +62,7 @@ class RenderRinseSamplingFields extends React.Component {
                 <InputNumber min={0} max={100} />
               )}
             </Form.Item>
-            <AddMOC 
+            <AddMOC
               targetResidueType={this.props.targetResidueType} 
               form={this.props.form}
               parameterName='rinse'

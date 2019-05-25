@@ -7,6 +7,34 @@
 
 .input-inLine .ant-form-item-children {
   display: flex !important;
-  justify-content: center !important;
+  justify-content: space-between !important;
   align-items: center !important;
+}
+
+.form-container {
+  width: 40%;
+}
+
+/* Responsive */
+
+@media( max-width: 1000px ) {
+  .form-container {
+    width: 60%;
+  }
+}
+
+@media( max-width: 650px ) {
+  .form-container {
+    width: 80%;
+  }
+}
+
+@media( max-width: 500px ) {
+  .form-container {
+    width: 90%;
+  }
+
+  .input-inLine {
+    width: 100% !important;
+  }
 }

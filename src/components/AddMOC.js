@@ -5,13 +5,11 @@ const { Option } = Select;
 let id = 0;
 
 class AddMOC extends React.Component {
-  state = { mocItems: [] };
-
   remove = k => {
     const { form } = this.props;
     // can use data-binding to get
     const keys = form.getFieldValue('keys');
-    // We need at least one
+    // We need at least one passenger
     // if (keys.length === 1) {
     //   return;
     // }
@@ -26,7 +24,7 @@ class AddMOC extends React.Component {
     const { form } = this.props;
     // can use data-binding to get
     const keys = form.getFieldValue('keys');
-    const nextKeys = keys.concat(id++);
+    const nextKeys = keys.concat(id++ + this.props.parameterName);
     // can use data-binding to set
     // important! notify form to detect changes
     form.setFieldsValue({
@@ -34,21 +32,26 @@ class AddMOC extends React.Component {
     });
   };
 
+
   render() {
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     getFieldDecorator('keys', { initialValue: [] });
     const keys = getFieldValue('keys');
-
     const formItems = keys.map((k, index) => {
-      const random = Math.random();
+      if (!k.includes(this.props.parameterName)) {
+        return [];
+      };
+      
       return (
-        <React.Fragment key={random}>
+        <React.Fragment key={k}>
           <Card style={{ backgroundColor: '#f2f2f2' }}>
-            <Form.Item label="Select MOC"
+            <Form.Item 
+              label="Select MOC"
+              required={true}
               key={k + 'select-moc'}
               style={{ display: 'inline-block', width: 'calc(65% - 12px)', marginRight: '10px' }}>
-              {getFieldDecorator(k + 'selectMOC', {
+              {getFieldDecorator(`selectMOC[${k}]` + this.props.parameterName, {
                 rules: [{ required: true, message: 'Please select MOC' }],
               })(
                 <Select initialtValue="Stainless Steel">
@@ -59,12 +62,13 @@ class AddMOC extends React.Component {
                 </Select>
               )}
             </Form.Item>
-            <Form.Item label="Recovery (%)"
-              key={k + 'recovery'}
+            <Form.Item 
+              label="Recovery (%)"
+              required={true}
               style={{ display: 'inline-block', width: 'calc(25% - 12px)', marginLeft: '10px' }}
               className='input-inLine'
             >
-              {getFieldDecorator(k + 'mocRecovery', {
+              {getFieldDecorator(`mocRecovery[${k}]` + this.props.parameterName, {
                 rules: [{ required: true, message: 'Please input recovery percentage' }],
               })(
                 <InputNumber min={0} max={100} />
@@ -84,16 +88,15 @@ class AddMOC extends React.Component {
       );
     });
 
-
     return (
       <div>
-        {formItems.length <= 0 &&
+        {true &&
           <Button type="primary" ghost
             style={{ width: '100%', marginBottom: '1em' }}
             onClick={() => this.add()}
           >
             Add MOC
-        </Button>}
+          </Button>}
 
         {formItems}
       </div>
